@@ -6,7 +6,7 @@ module.exports = class Semaphore {
     this._workers = [];
     this._queue = [];
   }
-  acquire() {
+  async acquire() {
     const lock = resolvePromise();
     if (this._workers.length < this._permits) {
       this._workers.push(lock);
