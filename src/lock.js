@@ -2,17 +2,17 @@ const { resolvePromise } = require('./common');
 
 module.exports = class Lock {
   constructor() {
-    this.queue = [];
+    this._queue = [];
   }
   lock() {
     const lock = resolvePromise();
     try {
-      return Promise.all(this.queue);
+      return Promise.all(this._queue);
     } finally {
-      this.queue.push(lock);
+      this._queue.push(lock);
     }
   }
   unlock() {
-    this.queue.shift().resolve();
+    this._queue.shift().resolve();
   }
 };

@@ -13,11 +13,8 @@ describe('Lock', () => {
     await lock.lock();
     lock.lock().then(thread2);
     await utils.delay(100);
-    try {
-      expect(thread2).not.toHaveBeenCalled();
-    } finally {
-      lock.unlock();
-    }
+    expect(thread2).not.toHaveBeenCalled();
+    lock.unlock();
     await utils.delay(100);
     expect(thread2).toHaveBeenCalled();
   });
@@ -29,19 +26,13 @@ describe('Lock', () => {
     lock.lock().then(thread2);
     lock.lock().then(thread3);
     await utils.delay(100);
-    try {
-      expect(thread2).not.toHaveBeenCalled();
-      expect(thread3).not.toHaveBeenCalled();
-    } finally {
-      lock.unlock();
-    }
+    expect(thread2).not.toHaveBeenCalled();
+    expect(thread3).not.toHaveBeenCalled();
+    lock.unlock();
     await utils.delay(100);
-    try {
-      expect(thread2).toHaveBeenCalled();
-      expect(thread3).not.toHaveBeenCalled();
-    } finally {
-      lock.unlock();
-    }
+    expect(thread2).toHaveBeenCalled();
+    expect(thread3).not.toHaveBeenCalled();
+    lock.unlock();
     await utils.delay(100);
     expect(thread3).toHaveBeenCalled();
   });
