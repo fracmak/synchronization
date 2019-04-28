@@ -1,4 +1,4 @@
-const ReadWriteBarrier = require('../src/read-write-barrier');
+const { ReadWriteBarrier } = require('../src/');
 const utils = require('./utils');
 
 describe('ReadWriteBarrier', () => {

@@ -1,4 +1,4 @@
-const Lock = require('../src/lock');
+const { Lock } = require('../src/');
 const utils = require('./utils');
 
 describe('Lock', () => {

@@ -1,4 +1,4 @@
-const Semaphore = require('../src/semaphore');
+const { Semaphore } = require('../src/');
 const utils = require('./utils');
 
 describe('Semaphore', () => {

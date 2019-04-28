@@ -1,4 +1,4 @@
-const Latch = require('../src/latch');
+const { Latch } = require('../src/');
 const utils = require('./utils');
 
 describe('Latch', () => {
