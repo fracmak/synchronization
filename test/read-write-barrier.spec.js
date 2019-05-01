@@ -47,4 +47,25 @@ describe('ReadWriteBarrier', () => {
     expect(write1).toHaveBeenCalled();
     expect(write2).toHaveBeenCalled();
   });
+  it('should allow a writer get a read barrier and block the next writer', async () => {
+    const rwb = new ReadWriteBarrier(2);
+    const write1 = jest.fn();
+    const write2 = jest.fn();
+    rwb.read();
+    rwb.write().then(() => {
+      rwb.read();
+      write1();
+    });
+    rwb.write().then(write2);
+    await utils.delay(100);
+    expect(write1).not.toHaveBeenCalled();
+    expect(write2).not.toHaveBeenCalled();
+    rwb.releaseRead();
+    await utils.delay(100);
+    expect(write1).toHaveBeenCalled();
+    expect(write2).not.toHaveBeenCalled();
+    rwb.releaseRead();
+    await utils.delay(100);
+    expect(write2).toHaveBeenCalled();
+  });
 });

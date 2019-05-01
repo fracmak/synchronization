@@ -1,4 +1,4 @@
-const { resolvePromise } = require('./common');
+const { resolvePromise, nextTick } = require('./common');
 
 module.exports = class ReadWriteBarrier {
   constructor() {
@@ -8,11 +8,17 @@ module.exports = class ReadWriteBarrier {
   read() {
     this._readers.push(true);
   }
-  releaseRead() {
+  async releaseRead() {
     this._readers.shift();
     if (!this._readers.length) {
       // notify writers
-      this._writers.forEach(writer => writer.resolve());
+      while (this._writers.length) {
+        this._writers.shift().resolve();
+        await nextTick(); // give the writer a chance to grab a lock before releasing the next writer
+        if (this._readers.length) {
+          break;
+        }
+      }
     }
   }
   async write() {

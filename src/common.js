@@ -7,4 +7,9 @@ function resolvePromise() {
   return lock;
 }
 
+async function nextTick() {
+  await Promise.resolve();
+}
+
 module.exports.resolvePromise = resolvePromise;
+module.exports.nextTick = nextTick;
